@@ -1,17 +1,18 @@
 # DFA Minimization Simulator
 
 <p align="center">
-  An interactive web-based simulator for **Deterministic Finite Automata (DFA) Minimization** using the **Myhill–Nerode Table-Filling Algorithm**.
+  An interactive web-based simulator for <strong>Deterministic Finite Automata (DFA) Minimization</strong> using the <strong>Myhill–Nerode Table-Filling Algorithm</strong>.
 </p>
 
 <p align="center">
-  <a href="https://dfa-studio-lime.vercel.app/">🚀 Live Demo</a> •
-  <a href="https://github.com/stutipanda/dfa-studio">📂 GitHub Repository</a>
+  <a href="https://dfa-studio-lime.vercel.app/"><strong>🚀 Live Demo</strong></a>
+  &nbsp; | &nbsp;
+  <a href="https://github.com/stutipanda/dfa-studio"><strong>📂 GitHub Repository</strong></a>
 </p>
 
 ---
 
-## Overview
+## 📌 Overview
 
 DFA Minimization is the process of reducing the number of states in a Deterministic Finite Automaton without changing the language it recognizes.
 
@@ -19,7 +20,7 @@ This project provides an interactive environment to understand and visualize the
 
 Users can define custom DFAs, identify unreachable states, explore distinguishable and equivalent state pairs, and visualize the resulting minimized automaton.
 
-## Features
+## ✨ Features
 
 ### 1. DFA Input and Validation
 - Accepts user-defined DFA specifications.
@@ -43,7 +44,7 @@ Users can define custom DFAs, identify unreachable states, explore distinguishab
 
 ### 5. Equivalence Class Generation
 - Groups equivalent states into equivalence classes.
-- Uses equivalence classes to construct the minimized DFA.
+- Uses these classes to construct the minimized DFA.
 
 ### 6. Minimized DFA Visualization
 - Displays the minimized transition table.
@@ -57,9 +58,9 @@ Users can define custom DFAs, identify unreachable states, explore distinguishab
 ### 8. JSON Export
 - Exports the minimized DFA as a JSON file.
 
-## Algorithm
+## ⚙️ Algorithm
 
-The simulator implements the Myhill–Nerode Table-Filling Algorithm.
+The simulator implements the **Myhill–Nerode Table-Filling Algorithm**.
 
 The minimization process follows these steps:
 
@@ -79,7 +80,7 @@ Where:
 - |Q| = Number of states
 - |Σ| = Number of input alphabet symbols
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 | Technology | Purpose |
 |---|---|
@@ -92,7 +93,7 @@ Where:
 
 The application performs DFA parsing, minimization, visualization, and validation entirely on the client side. No backend or database is required.
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
@@ -101,25 +102,25 @@ The application performs DFA parsing, minimization, visualization, and validatio
 
 ### Installation
 
-Clone the repository:
+**1. Clone the repository**
 
 ```bash
 git clone https://github.com/stutipanda/dfa-studio.git
 ```
 
-Navigate to the project directory:
+**2. Navigate to the project directory**
 
 ```bash
 cd dfa-studio
 ```
 
-Install dependencies:
+**3. Install dependencies**
 
 ```bash
 npm install
 ```
 
-Start the development server:
+**4. Start the development server**
 
 ```bash
 npm run dev
@@ -127,7 +128,7 @@ npm run dev
 
 Open http://localhost:3000 in your browser.
 
-## Example DFA
+## 🧪 Example DFA
 
 The simulator includes a sample DFA with:
 
@@ -146,6 +147,43 @@ Expected equivalence classes:
 
 The minimized DFA contains **3 states instead of 6**, while recognizing the same language as the original DFA.
 
-## Project Structure
+## 📁 Project Structure
 
 ```text
+dfa-studio/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   └── globals.css
+│   └── lib/
+│       └── dfa.ts
+├── package.json
+├── tsconfig.json
+├── next.config.ts
+└── README.md
+```
+
+## 👥 Contributors
+
+Developed collaboratively as part of **CSET302 – Automata Theory and Computability**.
+
+| S. No. | Contributor |
+|---|---|
+| 1 | Stuti Panda |
+| 2 | Rhea Mathur |
+| 3 | Nakshatra Gupta |
+| 4 | Gurpreet Nagar |
+| 5 | Aayush Adhikari |
+
+## 🎓 Academic Context
+
+- **Course:** CSET302 – Automata Theory and Computability
+- **Project:** DFA Minimization Simulator
+- **Institution:** Bennett University
+
+---
+
+<p align="center">
+  Built to make automata theory more interactive, visual, and easier to understand.
+</p>
