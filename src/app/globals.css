@@ -3,3 +3,28 @@
 @media(max-width:1050px){.sidebar{width:210px}main{margin-left:210px}.content{padding:25px}.hero-graphic{right:-90px;opacity:.5}.cards{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:760px){.sidebar{width:58px;padding:16px 7px}.brand{padding:0 2px 24px}.brand>div:nth-child(2),.sidecaption,.project,.sidebottom,.sidebar nav button:not(.selected){display:none}.sidebar nav button{font-size:0;justify-content:center;padding:13px 0}.sidebar nav button svg{width:20px;height:20px}.main{margin-left:58px}main{margin-left:58px}header{padding:0 13px}.content{padding:20px 13px}.heading{align-items:flex-start;flex-direction:column}.hero{padding:25px}.hero-graphic{opacity:.2;right:-200px}.two,.tableview{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.stats{gap:8px}.toolbar{align-items:flex-start;flex-direction:column}.toolbar>div{width:100%;justify-content:space-between}.heading>div:last-child{width:100%}.heading>div:last-child button{flex:1}footer{flex-direction:column;gap:6px}}
 @media(max-width:430px){.cards{grid-template-columns:1fr}.hero h2{font-size:27px}.stats{grid-template-columns:1fr 1fr}}
+
+/* Beginner-first visual DFA builder */
+.builder-intro{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px;padding:21px}
+.builder-intro h2{font:800 22px Manrope;margin:7px 0 4px;color:var(--ink)}
+.builder-intro p,.builder-footer p{font-size:11px;color:#8794a6;margin:0}
+.eyebrow{font-size:9px;letter-spacing:1.2px;color:#6076d3;font-weight:800}
+.builder-grid{grid-template-columns:.85fr 1.15fr;align-items:start;margin-top:0}
+.builder-field{margin:17px 0}
+.builder-field>label{display:block;font-size:10px;font-weight:700;color:#58677d;margin-bottom:7px}
+.builder-field>input,.builder-field>select{width:100%;border:1px solid #e1e7ef;background:#fbfcfe;border-radius:7px;padding:11px 12px;color:#34445e;font-size:11px;outline:none}
+.builder-field>input:focus,.builder-field>select:focus{border-color:#9eaff0}
+.builder-field>small{display:block;color:#98a3b2;font-size:9px;margin-top:8px}
+.state-checks{display:flex;gap:7px;flex-wrap:wrap}
+.state-check{display:flex!important;align-items:center;gap:6px;border:1px solid #e4e9f0;border-radius:7px;padding:8px 10px;margin:0!important;font-size:10px!important;color:#65748a!important;cursor:pointer}
+.state-check.active{background:#eaf8f2;border-color:#bfe8d8;color:#168b68!important}
+.state-check input{accent-color:#169b75}
+.transition-builder{overflow-x:auto}
+.transition-builder table{min-width:280px}
+.transition-builder td select{width:100%;min-width:62px;border:1px solid #e1e7ef;border-radius:6px;background:#fbfcfe;padding:7px;color:#40516b;font-size:10px}
+.transition-builder td:first-child{white-space:nowrap}
+.builder-footer{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:14px}
+.advanced-toggle{display:flex;justify-content:flex-end;margin:14px 0}
+.advanced-editor{margin-top:0}
+@media(max-width:900px){.builder-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.builder-intro,.builder-footer{align-items:flex-start;flex-direction:column}.builder-footer .primary{width:100%}}
