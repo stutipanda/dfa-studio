@@ -1,0 +1,26 @@
+export type DFA={states:string[];alphabet:string[];start:string;finals:string[];transitions:Record<string,Record<string,string>>};
+export type Reason={pair:[string,string];kind:"finality"|"transition";round:number;symbol?:string;successors?:[string,string];message:string};
+export type Step={round:number;newly:Reason[];marked:string[]};
+export type Result={reachable:string[];unreachable:string[];reduced:DFA;steps:Step[];reasons:Record<string,Reason>;equivalent:[string,string][];classes:string[][];minimized:DFA};
+export const EXAMPLE:DFA={states:["A","B","C","D","E","F"],alphabet:["0","1"],start:"A",finals:["C","D","E"],transitions:{A:{"0":"B","1":"C"},B:{"0":"A","1":"D"},C:{"0":"E","1":"F"},D:{"0":"E","1":"F"},E:{"0":"E","1":"F"},F:{"0":"F","1":"F"}}};
+export const pairKey=(a:string,b:string,order:string[])=>order.indexOf(a)<order.indexOf(b)?`${a}|||${b}`:`${b}|||${a}`;
+export function validate(d:DFA):string[]{const e:string[]=[];if(!d.states?.length)return["Add at least one state."];if(!d.alphabet?.length)e.push("Add at least one alphabet symbol.");if(new Set(d.states).size!==d.states.length)e.push("State names must be unique.");if(new Set(d.alphabet).size!==d.alphabet.length)e.push("Alphabet symbols must be unique.");if(!d.states.includes(d.start))e.push("Initial state must be declared.");if(d.finals.some(s=>!d.states.includes(s)))e.push("Every final state must be declared.");for(const s of d.states)for(const a of d.alphabet){const t=d.transitions?.[s]?.[a];if(!t)e.push(`Missing transition δ(${s}, ${a}).`);else if(!d.states.includes(t))e.push(`Unknown destination "${t}" in δ(${s}, ${a}).`);}return e;}
+export function minimize(d:DFA):Result{
+ const errors=validate(d);if(errors.length)throw Error(errors.join("\\n"));
+ const seen=new Set([d.start]),q=[d.start];while(q.length){const s=q.shift()!;for(const a of d.alphabet){const t=d.transitions[s][a];if(!seen.has(t)){seen.add(t);q.push(t);}}}
+ const reachable=d.states.filter(s=>seen.has(s)),unreachable=d.states.filter(s=>!seen.has(s));
+ const reduced:DFA={states:reachable,alphabet:[...d.alphabet],start:d.start,finals:d.finals.filter(s=>seen.has(s)),transitions:Object.fromEntries(reachable.map(s=>[s,{...d.transitions[s]}]))};
+ const marks=new Map<string,Reason>(),reasons:Record<string,Reason>={},steps:Step[]=[];
+ const init:Reason[]=[];for(let i=0;i<reachable.length;i++)for(let j=i+1;j<reachable.length;j++){const a=reachable[i],b=reachable[j];if(reduced.finals.includes(a)!==reduced.finals.includes(b)){const r:Reason={pair:[a,b],kind:"finality",round:0,message:`${a} and ${b} are distinguishable: one is accepting and the other is non-accepting (ε distinguishes them).`};const k=pairKey(a,b,reachable);marks.set(k,r);reasons[k]=r;init.push(r);}}
+ steps.push({round:0,newly:init,marked:[...marks.keys()]});
+ let round=1;while(true){const newly:Reason[]=[];for(let i=0;i<reachable.length;i++)for(let j=i+1;j<reachable.length;j++){const a=reachable[i],b=reachable[j],k=pairKey(a,b,reachable);if(marks.has(k))continue;for(const symbol of d.alphabet){const x=reduced.transitions[a][symbol],y=reduced.transitions[b][symbol];if(x!==y&&marks.has(pairKey(x,y,reachable))){newly.push({pair:[a,b],kind:"transition",round,symbol,successors:[x,y],message:`On input "${symbol}", ${a} goes to ${x} and ${b} goes to ${y}. The successor pair (${x}, ${y}) is already marked, so (${a}, ${b}) is distinguishable.`});break;}}}
+ if(!newly.length)break;for(const r of newly){const k=pairKey(...r.pair,reachable);marks.set(k,r);reasons[k]=r;}steps.push({round,newly,marked:[...marks.keys()]});round++;}
+ const equivalent:[string,string][]=[];for(let i=0;i<reachable.length;i++)for(let j=i+1;j<reachable.length;j++){const p:[string,string]=[reachable[i],reachable[j]];if(!marks.has(pairKey(...p,reachable)))equivalent.push(p);}
+ const parent:Record<string,string>=Object.fromEntries(reachable.map(s=>[s,s]));const find=(x:string):string=>parent[x]===x?x:(parent[x]=find(parent[x]));const union=(a:string,b:string)=>{parent[find(a)]=find(b);};for(const [a,b] of equivalent)union(a,b);
+ const groups=new Map<string,string[]>();for(const s of reachable){const r=find(s);if(!groups.has(r))groups.set(r,[]);groups.get(r)!.push(s);}
+ const classes=[...groups.values()].sort((a,b)=>reachable.indexOf(a[0])-reachable.indexOf(b[0]));const name=(g:string[])=>g.length===1?g[0]:`{${g.join(",")}}`;const map=new Map<string,string>();for(const g of classes)for(const s of g)map.set(s,name(g));
+ const states=classes.map(name),transitions: DFA["transitions"]={};for(const g of classes){const n=name(g),rep=g[0];transitions[n]={};for(const a of d.alphabet)transitions[n][a]=map.get(reduced.transitions[rep][a])!;}
+ const minimized:DFA={states,alphabet:[...d.alphabet],start:map.get(d.start)!,finals:classes.filter(g=>g.some(s=>reduced.finals.includes(s))).map(name),transitions};
+ return{reachable,unreachable,reduced,steps,reasons,equivalent,classes,minimized};
+}
+export function simulate(d:DFA,input:string){const symbols=Array.from(input);const bad=symbols.find(s=>!d.alphabet.includes(s));if(bad!==undefined)return{accepted:false,trace:[d.start],error:`"${bad}" is not in the alphabet.`};let s=d.start;const trace=[s];for(const a of symbols){s=d.transitions[s][a];trace.push(s);}return{accepted:d.finals.includes(s),trace};}
