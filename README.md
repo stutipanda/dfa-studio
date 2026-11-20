@@ -1,33 +1,151 @@
-# DFA Studio — Minimization Lab
+# DFA Minimization Simulator
 
-Interactive, client-side DFA minimization simulator using BFS reachability analysis and the Myhill–Nerode table-filling algorithm.
+<p align="center">
+  An interactive web-based simulator for **Deterministic Finite Automata (DFA) Minimization** using the **Myhill–Nerode Table-Filling Algorithm**.
+</p>
 
-## Requirements
-Node.js 20.9+ and npm.
+<p align="center">
+  <a href="https://dfa-studio-lime.vercel.app/">🚀 Live Demo</a> •
+  <a href="https://github.com/stutipanda/dfa-studio">📂 GitHub Repository</a>
+</p>
 
-## Run
-```bash
-npm install
-npm run dev
-```
-Open http://localhost:3000.
+---
 
-## Build
-```bash
-npm run build
-npm start
-```
+## Overview
+
+DFA Minimization is the process of reducing the number of states in a Deterministic Finite Automaton without changing the language it recognizes.
+
+This project provides an interactive environment to understand and visualize the minimization process through the Myhill–Nerode Table-Filling Algorithm.
+
+Users can define custom DFAs, identify unreachable states, explore distinguishable and equivalent state pairs, and visualize the resulting minimized automaton.
 
 ## Features
-- JSON DFA editor and validation
-- BFS unreachable-state removal
-- Lower-triangular table-filling visualization
-- Initial and transition-based marking with explanations
-- Equivalence classes and minimized transition table
-- SVG DFA diagram
-- Original/minimized string simulation
-- JSON export
 
-The app expects a complete DFA: every state must define exactly one destination for every alphabet symbol.
+### 1. DFA Input and Validation
+- Accepts user-defined DFA specifications.
+- Validates states, alphabet symbols, initial state, final states, and transitions.
+- Checks whether the DFA is complete and deterministic.
 
-Built-in example: Q={A,B,C,D,E,F}, Σ={0,1}, start A, finals {C,D,E}. Expected classes: {A,B}, {C,D,E}, {F}.
+### 2. Unreachable State Detection
+- Uses Breadth-First Search (BFS) to identify reachable states.
+- Detects unreachable states that can be removed before minimization.
+
+### 3. Myhill–Nerode Table-Filling Algorithm
+- Generates a lower-triangular state-pair table.
+- Initially marks pairs containing one final and one non-final state.
+- Iteratively identifies distinguishable state pairs based on transitions.
+- Explains why individual state pairs are marked.
+
+### 4. Step-by-Step Visualization
+- Interactive algorithm playback.
+- Visual representation of table-filling rounds.
+- Explanations of distinguishability propagation.
+
+### 5. Equivalence Class Generation
+- Groups equivalent states into equivalence classes.
+- Uses equivalence classes to construct the minimized DFA.
+
+### 6. Minimized DFA Visualization
+- Displays the minimized transition table.
+- Visualizes the resulting minimized state diagram.
+
+### 7. String Validation
+- Tests input strings on both original and minimized DFAs.
+- Compares acceptance and rejection results.
+- Demonstrates language equivalence.
+
+### 8. JSON Export
+- Exports the minimized DFA as a JSON file.
+
+## Algorithm
+
+The simulator implements the Myhill–Nerode Table-Filling Algorithm.
+
+The minimization process follows these steps:
+
+1. Identify and remove unreachable states.
+2. Construct a table of unordered pairs of reachable states.
+3. Mark pairs where one state is final and the other is non-final.
+4. Iteratively examine all unmarked pairs.
+5. Check transitions for every input alphabet symbol.
+6. Mark a pair if its transitions lead to an already distinguishable pair.
+7. Repeat until no additional pairs can be marked.
+8. Group the remaining unmarked pairs into equivalence classes.
+9. Construct the minimized DFA using these equivalence classes.
+
+**Time Complexity:** O(|Σ| × |Q|²)
+
+Where:
+- |Q| = Number of states
+- |Σ| = Number of input alphabet symbols
+
+## Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| Next.js | Frontend framework |
+| React | Component-based UI |
+| TypeScript | Application logic and type safety |
+| CSS | Styling and responsive interface |
+| Lucide React | Icons |
+| SVG | DFA state diagram visualization |
+
+The application performs DFA parsing, minimization, visualization, and validation entirely on the client side. No backend or database is required.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (LTS recommended)
+- npm
+
+### Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/stutipanda/dfa-studio.git
+```
+
+Navigate to the project directory:
+
+```bash
+cd dfa-studio
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Open http://localhost:3000 in your browser.
+
+## Example DFA
+
+The simulator includes a sample DFA with:
+
+- **States:** A, B, C, D, E, F
+- **Alphabet:** {0, 1}
+- **Initial State:** A
+- **Final States:** {C, D, E}
+
+Expected equivalence classes:
+
+```text
+[A, B]
+[C, D, E]
+[F]
+```
+
+The minimized DFA contains **3 states instead of 6**, while recognizing the same language as the original DFA.
+
+## Project Structure
+
+```text
